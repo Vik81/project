@@ -12,5 +12,4 @@ while True:
         break
     else:
         print('введите число из диапазона от 0 до 10')
-        continue
 print('число ' + str(n))

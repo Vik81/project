@@ -20,9 +20,9 @@ wt = input('Введите свой вес: ')
 age = int(age)
 wt = int(wt)
 
-if (age < 30) and (50 < wt < 120):
+if age < 30 and 50 < wt < 120:
     print(name + ' ' + last_name + ' ' + str(age) + ' год,' + 'вес ' + str(wt) + ' - хорошее состояние!')
-elif (40 < age > 30) and ((wt > 120) or (wt < 50)):
+elif (30 < age < 40) and ((wt > 120) or (wt < 50)):
     print(name + ' ' + last_name + ' ' + str(age) + ' год,' + 'вес ' + str(wt) + ' - следует заняться собой')
 elif (age > 40) and ((wt > 120) or (wt < 50)):
     print(name + ' ' + last_name + ' ' + str(age) + ' год,' + 'вес ' + str(wt) + ' - следует обратится к врачу!')

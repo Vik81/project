@@ -6,6 +6,26 @@
 # Например:
 # Пупкин василий - неверно указано имя, te$T@test.net - неверно указан email (спецсимвол, заглавная буква, .net), te_4_st@test.com - верно указан.
 
+import re
+
+first_last_name = '^[А-Я][а-я]+ [А-Я][а-я]+$'
+pattern_email = '^([a-z0-9-]+)@[a-z]+\.(ru|org|com|рф)$'
+
+fl_name = input('Введите фамилию и имя: ')
+email = input('Введите свой email: ')
+
+search_result_fl = re.search(fl_name, first_last_name)
+search_result_email = re.search(fl_name, first_last_name)
+if search_result_fl:
+    print('Фамилия и имя введены правильно')
+else:
+    print('Фамилия и имя введены неверно')
+if search_result_email:
+    print('email введен правильно')
+else:
+    print('email введен неверно')
+
+
 # Задача - 2:
 # Вам дан текст:
 
@@ -43,3 +63,10 @@ some_str = '''
 
 # Необходимо с помощью регулярных выражений определить есть ли в тексте подряд
 # более одной точки, при любом исходе сообщите результат пользователю!
+
+find_text = '\.\.'
+search_text = re.search(find_text, some_str)
+if search_text:
+    print('в тексте встречаются подряд более одной точки')
+else:
+    print('в тексте не встречаются подряд более одной точки')

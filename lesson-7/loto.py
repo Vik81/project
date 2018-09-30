@@ -59,35 +59,109 @@ import random
 
 class Card:
     def __init__(self):
-        self._crd = [[' ',' ',' ', ' ', ' ',' ',' ',' ', ' '],[' ',' ',' ', ' ', ' ',' ',' ',' ', ' '],[' ',' ',' ', ' ', ' ',' ',' ',' ', ' ']]
+        self._crd = [['  ','  ','  ', '  ', '  ','  ','  ','  ', '  '],['  ','  ','  ', '  ', '  ','  ','  ','  ', '  '],['  ','  ','  ', '  ', '  ','  ','  ','  ', '  ']]
 
-
-    def _create_card(self):
-        lst = random.sample(range(1, 90), 15)
+    def create_card(self):    # создание карты игрока
+        lst = random.sample(range(1, 91), 15)
         for i in range(3):
             for j in range(5):
                 self._crd[i][j] = lst[0]
                 lst.remove(lst[0])
             random.shuffle(self._crd[i])
-            print(self._crd)
 
-    def show_card(self):
+    def find_barrel(self, barrel):  # ищем бочнок
+        for i in range(3):
+            for j in range(9):
+                if barrel == self._crd[i][j]:
+                    return True
+        return False
+
+    def del_barrel(self, barrel):
+        for i in range(3):
+            for j in range(9):
+                if barrel == self._crd[i][j]:
+                    self._crd[i][j] = '--'
+
+    def show_card(self):  # вывести на экран
         print('--------------------------')
-        # for _ in
+        for i in range(3):
+            for j in range(9):
+                print('{} '.format(self._crd[i][j]), end='')
+            print()
         print('--------------------------')
 
+    def valid(self): # проверка на выйгрыш
+        for i in range(3):
+            for j in range(9):
+                if str(self._crd[i][j]).isdigit():
+                    return True
+        return False
 
+
+class CardComp(Card):
+    def __init__(self):
+        super().__init__()
+
+    def show_card(self):  # вывести на экран
+        print('-- Карточка компьютера ---')
+        for i in range(3):
+            for j in range(9):
+                print('{} '.format(self._crd[i][j]), end='')
+            print()
+        print('--------------------------')
+
+class CardPlayer(Card):
+    def __init__(self):
+        super().__init__()
+
+    def show_card(self):  # вывести на экран
+        print('------ Ваша карточка -----')
+        for i in range(3):
+            for j in range(9):
+                print('{} '.format(self._crd[i][j]), end='')
+            print()
+        print('--------------------------')
 
 class Bag:
     def __init__(self):
-        pass
+        self._bag = [i for i in range(1,91)]
+        self.barrel = ''
 
-    def pull(self):
-        pass
+    def pull(self):   # вытянуть бочнок
+        self.barrel = random.choice(self._bag)
+        self._bag.remove(self.barrel)
+        return self.barrel
 
-    def remained(self):
-        pass
+    def remained(self):  # кол-во оставшихся бочонков
+        return len(self._bag)
 
 
-card = Card()
-card._create_card()
+comp_card = CardComp()
+comp_card.create_card()
+player_card = CardPlayer()
+player_card.create_card()
+bag = Bag()
+
+while True:
+     print('Новый бочонок: {} (осталось {})'.format(bag.pull(), bag.remained()))
+     comp_card.show_card()
+     player_card.show_card()
+     if input('Зачеркнуть цифру? (y/n)') == 'y':
+         if player_card.find_barrel(bag.barrel) or comp_card.find_barrel(bag.barrel):
+             player_card.del_barrel(bag.barrel)
+             comp_card.del_barrel(bag.barrel)
+         else:
+             print('Вы проиграли')
+             break
+     else:
+         if player_card.find_barrel(bag.barrel) or comp_card.find_barrel(bag.barrel):
+             print('Вы проиграли')
+             break
+     if not player_card.valid():
+         player_card.show_card()
+         print('Вы выиграли')
+         break
+     elif not comp_card.valid():
+         comp_card.show_card()
+         print('Выиграл компьютер')
+         break
